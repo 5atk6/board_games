@@ -38,6 +38,7 @@ int main()
 
     while (true) {
         cin >> x >> y;
+
         if (x == 0 && y == 0) {
             cout << "Terminate this game." << endl;
             break;
@@ -45,8 +46,14 @@ int main()
 
         x--;
         y--;
-        if (board[y][x] == 0) {
-            board[y][x] = player;
+
+        if (x < 0 || x >= 9 || y < 0 || y >= 9) {
+            cout << "Please input 1 to 9." << endl;
+            continue;
+        }
+
+        if (board[x][y] == 0) {
+            board[x][y] = player;
             print_board(board);
         } else {
             cout << "Please input other place." << endl;
