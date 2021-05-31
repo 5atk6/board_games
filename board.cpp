@@ -42,18 +42,14 @@ int check_board(int x, int y, int board[9][9])
                 int ix = x + i * k;
                 int iy = y + j * k;
                 if (ix < 0 || ix >= 9 || iy < 0 || iy >= 9) {
-                    continue;
-                }
-
-                if (board[ix][iy] == board[x][y]) {
-                    if (k == 4) {
-                        periphery[i+1][j+1] = k;
-                    }
-                    continue;
-                } else {
-                    periphery[i+1][j+1] = k - 1;
                     break;
                 }
+
+                if (board[ix][iy] != board[x][y]) {
+                    break;
+                }
+
+                periphery[i+1][j+1]++;
             }
         }
     }
