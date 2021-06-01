@@ -49,3 +49,14 @@ TEST(check_board_test, case04) {
         EXPECT_EQ(check_board(i, 4-i, board), 1);
     }
 }
+
+TEST(check_board_test, case05) {
+    int board[9][9] = {0};
+    board[0][0] = 1;
+    board[0][1] = 1;
+    board[0][2] = 1;
+    board[0][3] = 1;
+    for (int i = 0; i <= 3; i++) {
+        EXPECT_EQ(check_board(0, i, board), 0);
+    }
+}
