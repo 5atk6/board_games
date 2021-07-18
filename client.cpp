@@ -6,8 +6,15 @@
 #include <sys/un.h>
 #include <iostream>
 
-int main(void)
+int
+main(int argc, char *argv[])
 {
+    if (argc != 3) {
+        std::cout << "Please run a client like this." << std::endl;
+        std::cout << "./client 3 7" << std::endl;
+        return 1;
+    }
+
     // ソケット作成
     int sock = socket(AF_UNIX, SOCK_STREAM, 0);
     if (sock == -1)
@@ -30,13 +37,12 @@ int main(void)
 
     // 送信
     char message[32];
-    while(true) {
-        std::cin >> message[0] >> message[1];
-        if (write(sock, message, strlen(message)) == -1)
-        {
-            perror("write");
-            goto bail;
-        }
+    message[0] = *argv[1];
+    message[1] = *argv[2];
+    if (write(sock, message, strlen(message)) == -1)
+    {
+        perror("write");
+        goto bail;
     }
 
     // クローズ
