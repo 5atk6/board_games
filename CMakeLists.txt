@@ -4,3 +4,4 @@ project(board_games CXX)
 set(CMAKE_CXX_STANDARD 11)
 
 add_executable(app main.cpp board.cpp)
+add_executable(client client.cpp)
