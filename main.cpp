@@ -71,11 +71,6 @@ int main()
         if (listen(sock, 128) == -1) {
             perror("listen");
         }
-
-        fd = accept(sock, NULL, NULL);
-        if (fd == -1) {
-            perror("accept");
-        }
     }
 
 
@@ -83,6 +78,11 @@ int main()
         if (mode == MODE_INTERACTIVE) {
             cin >> x >> y;
         } else if (mode == MODE_SERVER) {
+            fd = accept(sock, NULL, NULL);
+            if (fd == -1) {
+                perror("accept");
+            }
+
             char buffer[32];
             int recv_size = read(fd, buffer, sizeof(buffer)-1);
             if (recv_size == -1) {
@@ -93,7 +93,6 @@ int main()
             buffer[recv_size] = '\0';
             x = buffer[0] - '0';
             y = buffer[1] - '0';
-
         }
 
         if(receive_position(x, y, board) == WIN) {
