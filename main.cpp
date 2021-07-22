@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "board.h"
 #include <stdio.h>
 #include <string.h>
@@ -41,6 +42,7 @@ int main()
 {
     int board[9][9] = {0};
     int x, y;
+    ofstream file;
 
     int sock, ret, fd;
     sock = socket(AF_UNIX, SOCK_STREAM, 0);
@@ -63,6 +65,15 @@ int main()
         perror("listen");
     }
 
+    file.open("board.txt");
+    for (int i = 0; i < 9; i++) {
+        for (int j = 0; j < 9; j++) {
+            file << board[i][j];
+        }
+        file << "\n";
+    }
+    file.close();
+
     while (true) {
         fd = accept(sock, NULL, NULL);
         if (fd == -1) {
@@ -83,6 +94,15 @@ int main()
         if(receive_position(x, y, board) == WIN) {
             break;
         }
+
+        file.open("board.txt");
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                file << board[i][j];
+            }
+            file << "\n";
+        }
+        file.close();
     }
 
     cout << "Finish this game." << endl;

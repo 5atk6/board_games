@@ -1,8 +1,16 @@
 var http = require('http');
 var html = require('fs').readFileSync('index.html');
+var fs   = require('fs');
 
 http.createServer(function (req, res) {
   res.writeHead(200, {'Content-Type': 'text/html'});
+
+  try {
+      const board = fs.readFileSync('../build/board.txt', 'utf8');
+      res.write(board);
+  } catch (err) {
+      console.error(err);
+  }
 
   var data = '';
   const command = '../build/client '
