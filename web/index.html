@@ -61,7 +61,7 @@
                 ctx.arc(base_position*(x+1), base_position*(y+1), radius, 0, Math.PI*2, false);
                 if (board[y][x] == 1) {
                     ctx.fillStyle="black";
-                } else {
+                } else if (board[y][x] == -1){
                     ctx.fillStyle="white";
                     ctx.strokeStyle = "black";
                     ctx.stroke();
