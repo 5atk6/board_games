@@ -13,30 +13,7 @@ function getFromClient(request, response) {
     var url_parts = url.parse(request.url);
     switch(url_parts.pathname) {
         case '/':
-        case '/gomoku':
-            response.writeHead(200, {'Content-Type': 'text/html'});
-
-            try {
-                var content = ejs.render(inde_page);
-                response.write(content);
-            } catch (err) {
-                console.error(err);
-            }
-
-            var data = '';
-            const command = '../build/client '
-            if (request.method == 'POST') {
-            request.on('data', function(chunk) {data += chunk})
-                .on('end', function() {
-                    console.log(data);
-
-                    var x = data.split('&')[0].split('=')[1]
-                    var y = data.split('&')[1].split('=')[1]
-                    const { exec } = require('child_process');
-                    exec(command + x + ' ' + y);
-                })
-            }
-            response.end();
+            response_index(request, response);
             break;
 
         default:
@@ -44,4 +21,30 @@ function getFromClient(request, response) {
             response.end('no page...');
             break;
   }
+}
+
+function response_index(request, response) {
+    response.writeHead(200, {'Content-Type': 'text/html'});
+
+    try {
+        var content = ejs.render(inde_page);
+        response.write(content);
+    } catch (err) {
+        console.error(err);
+    }
+
+    var data = '';
+    const command = '../build/client '
+    if (request.method == 'POST') {
+    request.on('data', function(chunk) {data += chunk})
+        .on('end', function() {
+            console.log(data);
+
+            var x = data.split('&')[0].split('=')[1]
+            var y = data.split('&')[1].split('=')[1]
+            const { exec } = require('child_process');
+            exec(command + x + ' ' + y);
+        })
+    }
+    response.end();
 }
