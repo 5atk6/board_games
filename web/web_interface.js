@@ -1,13 +1,15 @@
-var http = require('http');
-var html = require('fs').readFileSync('index.html');
-var fs   = require('fs');
+const http = require('http');
+const fs   = require('fs');
+const ejs = require('ejs');
+
+const inde_page = fs.readFileSync('./index.ejs', 'utf-8');
 
 http.createServer(function (request, response) {
   response.writeHead(200, {'Content-Type': 'text/html'});
 
   try {
-      const board = fs.readFileSync('../build/board.txt', 'utf8');
-      response.write(board);
+      var content = ejs.render(inde_page);
+      response.write(content);
   } catch (err) {
       console.error(err);
   }
@@ -21,10 +23,9 @@ http.createServer(function (request, response) {
 
            var x = data.split('&')[0].split('=')[1]
            var y = data.split('&')[1].split('=')[1]
-           response.end(html);
            const { exec } = require('child_process');
            exec(command + x + ' ' + y);
        })
   }
-  response.end(html);
+  response.end();
 }).listen(8080); 
