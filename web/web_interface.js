@@ -4,7 +4,11 @@ const ejs = require('ejs');
 
 const inde_page = fs.readFileSync('./index.ejs', 'utf-8');
 
-http.createServer(function (request, response) {
+var server = http.createServer(getFromClient);
+server.listen(8080);
+console.log('Server Start!');
+
+function getFromClient(request, response) {
   response.writeHead(200, {'Content-Type': 'text/html'});
 
   try {
@@ -28,4 +32,4 @@ http.createServer(function (request, response) {
        })
   }
   response.end();
-}).listen(8080); 
+}
