@@ -23,7 +23,7 @@
     var ctx    = canvas.getContext("2d");
 
     var radius = 20;
-    var grid_size = 9;
+    var grid_size = <%= grid_size %>;
     var board = new Array(grid_size);
     var base_position = 60;
     var board_size = base_position * (grid_size-1);
@@ -97,26 +97,16 @@
     <div class="form-group">
       <p class="control-label"><b>x</b></p>
       <input type="radio" value=1 name="x" checked> 1
-      <input type="radio" value=2 name="x"> 2
-      <input type="radio" value=3 name="x"> 3
-      <input type="radio" value=4 name="x"> 4
-      <input type="radio" value=5 name="x"> 5
-      <input type="radio" value=6 name="x"> 6
-      <input type="radio" value=7 name="x"> 7
-      <input type="radio" value=8 name="x"> 8
-      <input type="radio" value=9 name="x"> 9
+      <% for (var x = 2; x <= grid_size; x++) { %>
+        <input type="radio" value=<%= x %> name="x"> <%= x %>
+      <% } %>
     </div>
     <div class="form-group">
       <p class="control-label"><b>y</b></p>
       <input type="radio" value=1 name="y" checked> 1
-      <input type="radio" value=2 name="y"> 2
-      <input type="radio" value=3 name="y"> 3
-      <input type="radio" value=4 name="y"> 4
-      <input type="radio" value=5 name="y"> 5
-      <input type="radio" value=6 name="y"> 6
-      <input type="radio" value=7 name="y"> 7
-      <input type="radio" value=8 name="y"> 8
-      <input type="radio" value=9 name="y"> 9
+      <% for (var y = 2; y <= grid_size; y++) { %>
+        <input type="radio" value=<%= y %> name="y"> <%= y %>
+      <% } %>
     </div>
     <input class="btn btn-primary" type="submit" value="Send">
   </form>

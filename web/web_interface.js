@@ -53,6 +53,7 @@ function response_index(request, response) {
     });
     var content = ejs.render(inde_page, {
         board_status: board_status,
+        grid_size: 9,
     });
     response.writeHead(200, {'Content-Type': 'text/html'});
     response.write(content);
