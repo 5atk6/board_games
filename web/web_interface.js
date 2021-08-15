@@ -10,6 +10,8 @@ var server = http.createServer(getFromClient);
 server.listen(8080);
 console.log('Server Start!');
 
+var board_status = '';
+
 function getFromClient(request, response) {
     var url_parts = url.parse(request.url);
     switch(url_parts.pathname) {
@@ -25,13 +27,7 @@ function getFromClient(request, response) {
 }
 
 function response_index(request, response) {
-    response.writeHead(200, {'Content-Type': 'text/html'});
-
-    var content = ejs.render(inde_page);
-    response.write(content);
-
-    var data = '';
-    const command = '../build/client '
+    const command = '../build/client ';
     if (request.method == 'POST') {
         var body = '';
 
@@ -47,7 +43,18 @@ function response_index(request, response) {
             const { exec } = require('child_process');
             exec(command + x + ' ' + y);
         });
-
     }
+
+    fs.readFile('../build/board.txt', 'utf8', (err, data) => {
+        if (err) {
+            console.error(err);
+        }
+        board_status = data;
+    });
+    var content = ejs.render(inde_page, {
+        board_status: board_status,
+    });
+    response.writeHead(200, {'Content-Type': 'text/html'});
+    response.write(content);
     response.end();
 }
