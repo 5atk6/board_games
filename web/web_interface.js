@@ -10,8 +10,6 @@ var server = http.createServer(getFromClient);
 server.listen(8080);
 console.log('Server Start!');
 
-var board_status = '';
-
 function getFromClient(request, response) {
     var url_parts = url.parse(request.url);
     switch(url_parts.pathname) {
@@ -40,17 +38,11 @@ function response_index(request, response) {
             console.log(post_data);
             var x = post_data.x;
             var y = post_data.y;
-            const { exec } = require('child_process');
-            exec(command + x + ' ' + y);
+            const exec = require('child_process').execSync(command + x + ' ' + y);
         });
     }
 
-    fs.readFile('../build/board.txt', 'utf8', (err, data) => {
-        if (err) {
-            console.error(err);
-        }
-        board_status = data;
-    });
+    var board_status = fs.readFileSync("../build/board.txt", 'utf-8');
     var content = ejs.render(inde_page, {
         board_status: board_status,
         grid_size: 9,
