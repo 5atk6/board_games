@@ -103,6 +103,11 @@ int main()
             }
         }
         file.close();
+
+        // Return to client
+        if ((ret = write(fd, "OK", 2)) < 0) {
+            perror("write");
+        }
     }
 
     cout << "Finish this game." << endl;

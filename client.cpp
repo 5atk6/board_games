@@ -32,7 +32,7 @@ main(int argc, char *argv[])
     if (connect(sock, (struct sockaddr*) &sa, sizeof(struct sockaddr_un)) == -1)
     {
         perror("connect");
-        goto bail;
+        close(sock);
     }
 
     // 送信
@@ -42,15 +42,20 @@ main(int argc, char *argv[])
     if (write(sock, message, strlen(message)) == -1)
     {
         perror("write");
-        goto bail;
+        close(sock);
     }
+
+    // Get result
+    char buffer[32];
+    memset(buffer, 0, sizeof(buffer));
+    int recv_size = read(sock, buffer, sizeof(buffer)-1);
+    if (recv_size == -1) {
+        perror("read");
+        close(sock);
+    }
+    std::cout << buffer << std::endl;
 
     // クローズ
     close(sock);
     return 0;
- 
-bail:
-    // エラーが発生した場合の処理
-    close(sock);
-    return 1;
 }
