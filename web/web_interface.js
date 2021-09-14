@@ -24,7 +24,7 @@ function getFromClient(request, response) {
   }
 }
 
-function response_index(request, response) {
+function execute_command(request, response) {
     const command = '../build/client ';
     if (request.method == 'POST') {
         var body = '';
@@ -41,13 +41,19 @@ function response_index(request, response) {
             const exec = require('child_process').execSync(command + x + ' ' + y);
         });
     }
+}
 
-    var board_status = fs.readFileSync("../build/board.txt", 'utf-8');
-    var content = ejs.render(inde_page, {
-        board_status: board_status,
-        grid_size: 9,
-    });
-    response.writeHead(200, {'Content-Type': 'text/html'});
-    response.write(content);
-    response.end();
+function response_index(request, response) {
+    execute_command(request, response);
+    fs.readFile('../build/board.txt', 'utf-8',
+        (error, data) => {
+            var content = ejs.render(inde_page, {
+                board_status: data,
+                grid_size: 9,
+            });
+            response.writeHead(200, {'Content-Type': 'text/html'});
+            response.write(content);
+            response.end();
+        }
+    );
 }
